@@ -11,10 +11,10 @@ type Factorial struct {
 	Result int
 }
 
-func (f *Factorial) Calculate(repository *repository.Repository) error {
+func (f *Factorial) Calculate(repository *repository.Repository) (int, error) {
 	f.Result = 1
 	for i := 1; i < f.Input+1; i++ {
 		f.Result = f.Result * i
 	}
-	return repository.Database.Write(f)
+	return f.Result, repository.Database.Write(f)
 }

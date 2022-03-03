@@ -43,3 +43,21 @@ func TestConstruct(t *testing.T) {
 		Destruct(repository.Database)
 	}
 }
+func TestInit(t *testing.T) {
+	repository, _, err := Construct()
+	if err != nil {
+		t.Errorf("Error is: %v . Expected: %v", err, nil)
+	}
+	tests := []struct {
+		err error
+	}{
+		{err: nil},
+	}
+	for _, test := range tests {
+		err := repository.Init()
+		if test.err != err {
+			t.Errorf("Error is: %v . Expected: %v", err, test.err)
+		}
+		Destruct(repository.Database)
+	}
+}
