@@ -10,16 +10,22 @@ func Construct() (Repository, interface{}, error) {
 
 	godotenv.Load("../.env")
 	repository := Repository{}
-
 	type TestingPurposeStruct struct {
 		Name string
+		Role string
 	}
+
 	tst := TestingPurposeStruct{
 		Name: "test",
+		Role: "admin",
 	}
 	err := repository.Init()
 	if err != nil {
-		return repository, nil, err
+		return repository, tst, err
+	}
+	err = repository.Database.AutoMigrate(&TestingPurposeStruct{})
+	if err != nil {
+		return repository, tst, nil
 	}
 	return repository, tst, nil
 }
