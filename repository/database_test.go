@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -65,6 +66,7 @@ func TestList(t *testing.T) {
 	}
 	for _, test := range tests {
 		output, err := repository.Database.List(test.input)
+		fmt.Println(reflect.TypeOf(output))
 		if test.err != err {
 			t.Errorf("Error is: %v . Expected: %v", err, test.err)
 		}
