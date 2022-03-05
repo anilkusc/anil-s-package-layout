@@ -22,7 +22,7 @@ func (d *Database) List(object interface{}) ([]interface{}, error) {
 	var objects []interface{}
 	// get type of the object
 	objectType := reflect.TypeOf(object)
-	// create new object from obtained Object type. This line is creating new *[]*interface{}
+	// create new object from obtained Object type. This line is creating new *[]*interface{}. Because gorm is only accept this kind of object on interface array.
 	newObject := reflect.New(reflect.SliceOf(objectType)).Interface()
 	// list all appropriate objects from the database
 	result := d.DB.Model(object).Find(newObject)

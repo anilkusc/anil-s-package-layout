@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"reflect"
 	"testing"
 )
@@ -66,7 +65,34 @@ func TestList(t *testing.T) {
 	}
 	for _, test := range tests {
 		output, err := repository.Database.List(test.input)
-		fmt.Println(reflect.TypeOf(output))
+		if test.err != err {
+			t.Errorf("Error is: %v . Expected: %v", err, test.err)
+		}
+		if !reflect.DeepEqual(test.output, output) {
+			t.Errorf("Result is: %v . Expected: %v", output, test.output)
+		}
+	}
+
+	Destruct(repository.Database)
+}
+func TestRead(t *testing.T) {
+	repository, testtable, err := Construct()
+	if err != nil {
+		t.Errorf("Error is: %v . Expected: %v", err, nil)
+	}
+	err = repository.Database.Write(testtable)
+	if err != nil {
+		t.Errorf("Error is: %v . Expected: %v", err, nil)
+	}
+	tests := []struct {
+		input  interface{}
+		output interface{}
+		err    error
+	}{
+		{input: testtable, output: testtable, err: nil},
+	}
+	for _, test := range tests {
+		output, err := repository.Database.Read(test.input)
 		if test.err != err {
 			t.Errorf("Error is: %v . Expected: %v", err, test.err)
 		}
