@@ -16,5 +16,6 @@ func (f *Factorial) Calculate(repository *repository.Repository) (int, error) {
 	for i := 1; i < f.Input+1; i++ {
 		f.Result = f.Result * i
 	}
-	return f.Result, repository.Database.Write(f)
+	res := repository.Database.Sqlite.Create(f)
+	return f.Result, res.Error
 }

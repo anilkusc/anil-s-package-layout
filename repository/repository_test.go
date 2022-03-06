@@ -2,8 +2,10 @@ package repository
 
 import (
 	"testing"
+	"time"
 
 	"github.com/joho/godotenv"
+	"gorm.io/gorm"
 )
 
 func Construct() (Repository, interface{}, error) {
@@ -11,11 +13,17 @@ func Construct() (Repository, interface{}, error) {
 	godotenv.Load("../.env")
 	repository := Repository{}
 	type TestingPurposeStruct struct {
+		gorm.Model
 		Name string
 		Role string
 	}
 
-	tst := TestingPurposeStruct{
+	var tst = TestingPurposeStruct{
+		Model: gorm.Model{
+			//ID:        1,
+			UpdatedAt: time.Time{}, CreatedAt: time.Time{}, DeletedAt: gorm.DeletedAt{Time: time.Time{}, Valid: false},
+		},
+		//Test: 1,
 		Name: "test",
 		Role: "admin",
 	}
@@ -23,7 +31,7 @@ func Construct() (Repository, interface{}, error) {
 	if err != nil {
 		return repository, tst, err
 	}
-	err = repository.Database.AutoMigrate(&TestingPurposeStruct{})
+	err = repository.Database.Sqlite.AutoMigrate(&TestingPurposeStruct{})
 	if err != nil {
 		return repository, tst, nil
 	}
@@ -31,7 +39,7 @@ func Construct() (Repository, interface{}, error) {
 }
 
 func Destruct(db *Database) {
-	db.DB.Exec("DROP TABLE testing_purpose_structs")
+	db.Sqlite.Exec("DROP TABLE testing_purpose_structs")
 }
 
 func TestConstruct(t *testing.T) {

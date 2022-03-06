@@ -12,6 +12,6 @@ type Repository struct {
 func (repository *Repository) Init() error {
 	var err error
 	repository.Database = &Database{}
-	repository.Database.DB, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	repository.Database.Sqlite, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	return err
 }

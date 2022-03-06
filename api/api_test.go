@@ -37,7 +37,7 @@ func Construct() (Api, error) {
 }
 
 func Destruct(db *repository.Database) {
-	db.DB.Exec("DROP TABLE factorials")
+	db.Sqlite.Exec("DROP TABLE factorials")
 }
 
 func TestConstruct(t *testing.T) {

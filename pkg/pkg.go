@@ -7,5 +7,5 @@ type Pkg struct {
 }
 
 func (pkg *Pkg) Init() error {
-	return pkg.Repository.Database.AutoMigrate(&Factorial{})
+	return pkg.Repository.Database.Sqlite.AutoMigrate(&Factorial{})
 }

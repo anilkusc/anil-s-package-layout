@@ -1,0 +1,1 @@
+# This script stands for scaffolding this package layout from stratch
